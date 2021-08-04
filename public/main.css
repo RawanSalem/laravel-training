@@ -1,0 +1,40 @@
+.base,
+.image {
+  min-height: 100vh;
+}
+.bg-image {
+  background-image: url('https://media-exp1.licdn.com/dms/image/C4D1BAQFlYdwHrLyakw/company-background_10000/0/1543843174778?e=2159024400&v=beta&t=M5kRXgpgPseFYnqvvijawFCFaDYa1Zknuwq6m2JY8lI');
+  background-size: cover;
+  background-position: center center;
+}
+
+body {
+  margin-top: 20px;
+  background: #eee;
+}
+
+.card {
+  background: #fff;
+  margin-bottom: 30px;
+  transition: 0.5s;
+  border: 3;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  box-shadow: none;
+  border-radius: 10%;
+  padding: auto;
+}
+
+.card .body {
+  font-size: 14px;
+  padding: 20px;
+  font-weight: 400;
+}
+
+.profile-page .profile-header .profile-image img {
+  border-radius: 50%;
+  width: 100px;
+  border: 3px solid #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
