@@ -5,8 +5,24 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-10 col-xl-7 mx-auto">
+          @if(Session::has('success'))
+            <div class="alert alert-success">
+                {{ Session::get('success') }}
+                @php
+                    Session::forget('success');
+                @endphp
+            </div>
+          @endif
+          @if(Session::has('error'))
+            <div class="alert alert-success">
+                {{ Session::get('error') }}
+                @php
+                    Session::forget('error');
+                @endphp
+            </div>
+          @endif
             <h3 class="display-4 mb-5">Add new user</h3>
-            <form enctype="multipart/form-data" action="{{ route('register.custom') }}" method="POST">
+            <form enctype="multipart/form-data" action="{{ route('register_create') }}" method="POST">
                 @csrf
                 <div class="form-group mb-3">
                     <label class="mb-2 pl-2"> Name: </label>

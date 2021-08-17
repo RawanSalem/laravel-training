@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-lg-10 col-xl-7 mx-auto">
             <h3 class="display-4 mb-5">Login</h3>
-            <form method="POST" action="{{ route('login.custom') }}">
+            <form method="POST" action="{{ route('login_auth') }}">
                 @csrf
                 <div class="form-group mb-3">
                     <label class="mb-2 pl-2"> Email: </label>

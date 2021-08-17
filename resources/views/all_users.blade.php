@@ -8,7 +8,7 @@
             @foreach ($users as $user)
                 <div class="card profile-header">
                     <div class="col-lg-4">
-                        <div class="profile-image">
+                        <div class="profile-image mt-2">
                             <img
                                 src="/uploads/avatars/{{ $user->avatar }}"
                                 alt=""

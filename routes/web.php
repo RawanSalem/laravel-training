@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AuthController;
 
 
 /*
@@ -10,10 +12,15 @@ use App\Http\Controllers\UserController;
 |--------------------------------------------------------------------------
 */
 
-Route::get('dashboard', [UserController::class, 'dashboard']); 
-Route::get('allUsers', [UserController::class, 'allUsers'])->name('users-list');; 
-Route::get('login', [UserController::class, 'index'])->name('login');
-Route::post('custom-login', [UserController::class, 'customLogin'])->name('login.custom'); 
-Route::get('registration', [UserController::class, 'registration'])->name('register-user');
-Route::post('custom-registration', [UserController::class, 'customRegistration'])->name('register.custom'); 
-Route::get('signout', [UserController::class, 'signOut'])->name('signout');
+Route::get('login', [AuthController::class, 'index'])->name('login');
+Route::post('login_auth', [AuthController::class, 'login'])->name('login_auth'); 
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'dashboard']);
+    Route::get('userList', [DashboardController::class, 'userList'])->name('users_list'); 
+    Route::get('userRegistration', [UserController::class, 'userRegistration'])->name('register_user');
+    Route::post('registration', [UserController::class, 'registration'])->name('register_create');  
+    Route::get('signout', [AuthController::class, 'signOut'])->name('signout');
+
+});
