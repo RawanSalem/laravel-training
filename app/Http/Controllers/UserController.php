@@ -10,19 +10,24 @@ use App\Http\Requests\StoreUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 use Image;
 use App\Traits\ImgaeUpload;
 
 
 class UserController extends Controller
 {
-
+  // register user view
   public function userRegistration()
     {           
             return view('auth.registration');
         
     }
+
     use ImgaeUpload;
+    // create new user request
     public function registration(StoreUser $request)
     {      
       $data = $request->all();
@@ -39,8 +44,9 @@ class UserController extends Controller
              'phone' => $data['phone'],
              'password' => Hash::make($data['password']),
              'avatar' => $filePath,
-      ]);
-    
+      ]); 
+      $user->assignRole($data['role']);
+
       return back()->with('success', 'User created successfully.');
       
     }

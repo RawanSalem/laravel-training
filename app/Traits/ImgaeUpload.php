@@ -12,7 +12,7 @@ trait ImgaeUpload
     {
     		$avatar = $query;
     		$fileName = time() . '.' . $avatar->getClientOriginalExtension();
-    		Image::make($avatar)->save( public_path('/uploads/avatars/' . $filename ) );
+    		Image::make($avatar)->save( public_path('/uploads/avatars/' . $fileName ) );
             return $fileName;
     }
 }

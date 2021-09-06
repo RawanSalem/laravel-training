@@ -16,8 +16,8 @@
                         </div>
                     </div>
                     <div class="col-lg-8 pb-4">
-                        <h4>{{ $user->name }}</h4>
-                        <span>Phone: {{ $user->phone }} </span>
+                        <h4>{{__('text.name_label')}}: {{ $user->name }}</h4>
+                        <span>{{__('text.phone_label')}}: {{ $user->phone }} </span>
                     </div>
                 </div>
             @endforeach
