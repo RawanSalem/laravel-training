@@ -24,19 +24,21 @@ class PermissionsSeeder extends Seeder
                 Permission::create(['name' => 'edit service']);
                 Permission::create(['name' => 'delete service']);
                 Permission::create(['name' => 'create service']);
+                Permission::create(['name' => 'view services']);
                 Permission::create(['name' => 'create user']);
+                Permission::create(['name' => 'delete user']);
+                Permission::create(['name' => 'edit user']);
                 Permission::create(['name' => 'view users']);
+                Permission::create(['name' => 'create job post']);
+                Permission::create(['name' => 'apply to job']);
         
                 // create roles and assign existing permissions
-                $role1 = Role::create(['name' => 'Can-Create']);
-                $role1->givePermissionTo('create service');
-        
-                $role2 = Role::create(['name' => 'Can-Edit']);
-                $role2->givePermissionTo('edit service');
-        
-                $role3 = Role::create(['name' => 'Can-Delete']);
-                $role3->givePermissionTo('delete service');
-                
+                $role1 = Role::create(['name' => 'freelancer']);
+                $role1->givePermissionTo('apply to job');
+
+                $role2 = Role::create(['name' => 'client']);
+                $role2->givePermissionTo('create job post');
+               
                 $role4 = Role::create(['name' => 'Super-Admin']);
 
     }

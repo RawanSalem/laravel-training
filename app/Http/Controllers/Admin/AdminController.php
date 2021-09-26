@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthUser;
 use Hash;
@@ -12,12 +13,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Image;
 
-class AuthController extends Controller
+class AdminController extends Controller
 {
     // login view
     public function index()
     {
-        return view('auth.login');
+        return view('admin.login');
     }  
     
 
@@ -26,12 +27,8 @@ class AuthController extends Controller
     {
         $data = $request->only('email', 'password');
 
-        if (Auth::attempt($data)) {
-            if(Auth::user()->profile_type == 'App\Models\Freelancer'){
-                return redirect()->intended('freelancer/profile');
-            }
-            else if(Auth::user()->profile_type == 'App\Models\Client')
-                return redirect()->intended('client/profile');
+        if (Auth::guard('webadmin')->attempt($data)) {
+            return redirect()->intended('admin/dashboard');
         }
 
         return redirect('admin/login')->withErrors('Login details are not valid');
@@ -40,9 +37,17 @@ class AuthController extends Controller
     // logout request 
     public function logout()
     {
-        Session::flush();
-        Auth::logout();
-  
-        return Redirect('/');
+        Session::flush(); 
+        Auth::guard('webadmin')->logout();
+
+        return redirect('admin/login');
+
     } 
+    
+    public function dashboard()
+    {
+            return view('admin.dashboard');
+  
+    }
+
 }

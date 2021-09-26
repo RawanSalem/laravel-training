@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\ServiceValidation;
 use Illuminate\Support\Facades\DB;
 use App\Models\Service;
 use Validator;
@@ -17,12 +19,12 @@ class ServiceController extends Controller
         if($request->ajax()) {
             $services = DB::table('services')->orderBy('id', 'desc')->get();
             return Datatables::of($services)
-            ->addColumn('action', 'services_action')
+            ->addColumn('action', 'admin.services.services_action')
             ->rawColumns(['action'])
             ->addIndexColumn()
             ->make(true);
         }
-        return view('services');
+        return view('admin.services.services');
     }
 
     // create new service -POST- request 
@@ -32,10 +34,11 @@ class ServiceController extends Controller
             'name' => 'required|max:15',
             'detail' => 'required|min:20',
         ]);
+        // $validator = $request->validated();
         
 
         if ($validator->passes()) {
-            Service::updateOrCreate(['id' => $request->service_id],
+            Service::Create(
             ['name' => $request->name, 'detail' => $request->detail]);        
 
             return response()->json(['success'=>'Service saved successfully.']);
@@ -51,7 +54,8 @@ class ServiceController extends Controller
             'name' => 'required|max:15',
             'detail' => 'required|min:20',
         ]);
-        
+        // $validator = $request->all();
+
 
         if ($validator->passes()) {
             Service::updateOrCreate(['id' => $request->service_id],

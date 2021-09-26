@@ -8,17 +8,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class Admin extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles;
-
-    public $timestamps = false;
+    protected $guarded = [];
+    protected $guard_name = 'webadmin';
     
     protected $fillable = [
+        'name',
         'email',
         'password',
-        'phone',
-        'profile_type',
 
     ];
  
@@ -30,12 +29,5 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    protected $with = ['profile'];
- 
-    public function profile()
-    {
-      return $this->morphTo();
-    }
 
 }

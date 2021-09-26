@@ -5,8 +5,8 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-10 col-xl-7 mx-auto">
-        <h3 class="login-text display-4 mb-5">{{ __('text.login')}}</h3>
-        <form method="POST" action="{{ route('login_auth') }}">
+        <h3 class="login-text display-4 mb-5">{{ __('text.admin_login')}}</h3>
+        <form method="POST" action="{{ route('admin_login_auth') }}">
             @csrf
             <div class="form-group mb-3">
                 <label class="mb-2 pl-2 text-left">{{ __('text.Email')}}</label>
@@ -23,13 +23,6 @@
                 {{ __('text.login')}}
             </button>
         </form>
-        <hr>
-        <div>
-          <div class="account"> Don't have an Upwork account? </div>
-          <a class="log-btn btn btn-outline-success btn-block mb-5 mt-4  rounded-pill shadow-sm" href="{{ route('profile_type') }}" >
-            Sign up
-          </a>
-        </div>
       </div>
     </div>
   </div>
