@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthUser;
+use App\Services\AdminService;
 use Hash;
 use Session;
 use App\Models\Admin;
@@ -15,6 +16,8 @@ use Image;
 
 class AdminController extends Controller
 {
+    
+    
     // login view
     public function index()
     {
@@ -23,11 +26,11 @@ class AdminController extends Controller
     
 
     // login request
-    public function login(Request $request)
+    public function login(AuthUser $request)
     {
-        $data = $request->only('email', 'password');
+        $credentials = $request->only('email', 'password');
 
-        if (Auth::guard('webadmin')->attempt($data)) {
+        if (Auth::guard('webadmin')->attempt($credentials)) {
             return redirect()->intended('admin/dashboard');
         }
 

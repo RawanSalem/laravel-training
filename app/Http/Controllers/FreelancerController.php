@@ -2,33 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Freelancer;
-use App\Models\Service;
+// use App\Models\Service;
 use Illuminate\Http\Request;
-use Hash;
-use Session;
-use App\Models\User;
 use App\Http\Requests\StoreFreelancerRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\PermissionRegistrar;
+use App\Services\FreelancerService;
+use App\Repositories\ServiceRepository;
 use Image;
 use App\Traits\ImgaeUpload;
+// use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\DB;
+
 
 
 class FreelancerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+        /**
+     * @var FreelancerService
      */
-    public function index()
+    private $freelancerService;
+    
+    
+    /**
+     * @var ServiceRepository
+     */
+    private $serviceRepository;
+
+
+    public function __construct(FreelancerService $freelancerService, ServiceRepository $serviceRepository)
     {
-        //
+        $this->freelancerService = $freelancerService;
+        $this->serviceRepository = $serviceRepository;
+
     }
 
     /**
@@ -38,8 +43,8 @@ class FreelancerController extends Controller
      */
     public function create(Request $request)
     {
-        $services= Service::select('name', 'id')->get();
-
+        // $services= Service::select('name', 'id')->get();
+        $services = $this->serviceRepository->all();
         return view('auth.freelancer.registration', compact('services'));
 
     }
@@ -60,71 +65,10 @@ class FreelancerController extends Controller
         if (request()->hasFile('photo')) {    
             $filePath= $this->UserImageUpload($data['photo']);
           }
-        $user = User::create([
-               'email' => $data['email'],
-               'phone' => $data['phone'],
-               'password' => Hash::make($data['password']),
-        ]); 
-        $user->assignRole('freelancer');
-
-        $profile = Freelancer::create([
-            'name'=> $data['name'],
-            'country'=>$data['country'],
-            'work_title'=>$data['work_title'],
-            'service_id' => $data['work_type'],
-            'education'=>$data['education'],
-            'languages'=> implode(',', $data['languages']),
-            'bio'=>$data['bio'],
-            'photo'=>$filePath,
-        
-        ]);
-        $profile->user()->save($user);
+          
+        $this->freelancerService->create($data, $filePath);
 
         return back()->with('success', 'User created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\freelancer  $freelancer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(freelancer $freelancer)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\freelancer  $freelancer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(freelancer $freelancer)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\freelancer  $freelancer
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, freelancer $freelancer)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\freelancer  $freelancer
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(freelancer $freelancer)
-    {
-        //
-    }
 }

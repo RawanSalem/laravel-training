@@ -46,7 +46,7 @@
                 
                 <div class="form-group mb-3">
                     <label class="mb-2 pl-2">{{__('text.work_type_label')}} : </label>
-                    <select placeholder="Work Type" id="work_type" class="py-2 form-control shadow-sm" name="work_type">
+                    <select placeholder="Work Type" id="service_id" class="py-2 form-control shadow-sm" name="service_id">
                     <option>Select Item</option>
                     @foreach ($services as $service)
                         <option value="{{ $service -> id }}"> 

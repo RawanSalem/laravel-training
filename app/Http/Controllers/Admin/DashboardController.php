@@ -16,16 +16,8 @@ class DashboardController extends Controller
     // DASHBOARD view
     public function dashboard()
     {
-            return view('dashboard' , array('user' => Auth::user()));
+            return view('dashboard');
   
-    }
-    
-    // All users view
-    public function userList()
-    {
-        return view('all_users' , [
-            'users' => DB::table('users')->simplePaginate(4)
-        ]);
     }
 
 }

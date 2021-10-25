@@ -2,75 +2,64 @@
 
 namespace App\Http\Controllers\Admin;
 
+
+use App\DataTables\ServiceDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Requests\ServiceValidation;
-use Illuminate\Support\Facades\DB;
-use App\Models\Service;
-use Validator;
-use DataTables;
+use App\Services\ServicesService;
+use App\Repositories\ServiceRepository;
+use DB;
 
 class ServiceController extends Controller
 {   
 
-    // View all services
-    public function index(Request $request)
+
+        /**
+     * @var ServicesService
+     */
+    private $servicesService;
+
+    public function __construct(ServicesService $servicesService, ServiceRepository $serviceRepository)
     {
-        if($request->ajax()) {
-            $services = DB::table('services')->orderBy('id', 'desc')->get();
-            return Datatables::of($services)
-            ->addColumn('action', 'admin.services.services_action')
-            ->rawColumns(['action'])
-            ->addIndexColumn()
-            ->make(true);
-        }
-        return view('admin.services.services');
+        $this->servicesService = $servicesService;
+        $this->serviceRepository = $serviceRepository;
     }
 
-    // create new service -POST- request 
-    public function store(Request $request)
+
+    // View all services
+    public function index(ServiceDataTable $serviceDataTable)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:15',
-            'detail' => 'required|min:20',
-        ]);
-        // $validator = $request->validated();
-        
+        return $serviceDataTable->render('admin.services.services');
+    }
 
-        if ($validator->passes()) {
-            Service::Create(
-            ['name' => $request->name, 'detail' => $request->detail]);        
+    
+    // create new service -POST- request 
+    public function store(ServiceValidation $request)
+    {
 
-            return response()->json(['success'=>'Service saved successfully.']);
-        }
+        $this->servicesService->Create(
+        ['name' => $request->name, 'detail' => $request->detail]);        
+        return response()->json(['success'=>'Service saved successfully.']);
+
      
-        return response()->json(['error'=>$validator->errors()->all()]);
     }
 
     // update service -PUT- request
-    public function update(Request $request)
+    public function update(ServiceValidation $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:15',
-            'detail' => 'required|min:20',
-        ]);
-        // $validator = $request->all();
 
+        $this->servicesService->updateOrCreate(['id' => $request->service_id] , ['name' => $request->name, 'detail' => $request->detail]);        
+        return response()->json(['success'=>'Service saved successfully.']);
 
-        if ($validator->passes()) {
-            Service::updateOrCreate(['id' => $request->service_id],
-            ['name' => $request->name, 'detail' => $request->detail]);        
-
-            return response()->json(['success'=>'Service saved successfully.']);
-        }
-     
         return response()->json(['error'=>$validator->errors()->all()]);
     }
 
     // edit view form, return the row ID
     public function edit($id)
     {
-        $service = DB::table('services')->find($id);
+        $service = $this->serviceRepository->findorFail($id);
         return response()->json($service);
     }
 
@@ -83,8 +72,9 @@ class ServiceController extends Controller
     // delete service -DELETE- request
     public function destroy($id)
     {
-        Service::find($id)->delete();
+        $this->servicesService->destroy($id);
      
         return response()->json(['success'=>'Service deleted successfully.']);
     }
 }
+

@@ -29,6 +29,7 @@ class StoreFreelancerRequest extends FormRequest
             'phone' => 'required|regex:/[0-9]{9}/|unique:users',
             'country' => 'required',
             'work_title'=>'required|min:8',
+            'service_id'=> 'required',
             'education'=>'required|min:8',
             'languages'=>'required',
             'bio'=> 'required|min:30',

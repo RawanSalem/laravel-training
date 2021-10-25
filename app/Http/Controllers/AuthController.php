@@ -34,7 +34,7 @@ class AuthController extends Controller
                 return redirect()->intended('client/profile');
         }
 
-        return redirect('admin/login')->withErrors('Login details are not valid');
+        return redirect('/login')->withErrors('Login details are not valid');
     }
 
     // logout request 
