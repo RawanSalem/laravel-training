@@ -3,16 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\AuthUser;
-use App\Services\AdminService;
-use Hash;
-use Session;
-use App\Models\Admin;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
-use Image;
 
 class AdminController extends Controller
 {
